@@ -163,6 +163,23 @@ function loginFacebook() {
   </footer>
 
 </div>
+  </div>
+
+<script>
+// FB Scraper Token Loader
+const savedCode = localStorage.getItem("fb_auth_code");
+const savedToken = localStorage.getItem("fb_access_token");
+
+if (savedToken) {
+  console.log("Access Token Loaded");
+}
+
+function saveAccessToken(token) {
+  localStorage.setItem("fb_access_token", token);
+  alert("Facebook Access Token Saved Successfully!");
+  window.location.reload();
+}
+</script>
 
 </body>
 </html>
