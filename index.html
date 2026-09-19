@@ -117,24 +117,49 @@
 <a class="btn" href="#" onclick="loginFacebook(); return false;">
   Login with Facebook
 </a>
+<!-- Facebook JavaScript SDK -->
+<script async defer crossorigin="anonymous"
+src="https://connect.facebook.net/en_US/sdk.js"></script>
 
 <script>
+window.fbAsyncInit = function () {
+  FB.init({
+    appId: "2328948191213332",
+    cookie: true,
+    xfbml: true,
+    version: "v23.0"
+  });
+
+  // Agar pehle se login hai to token load karo
+  FB.getLoginStatus(function(response) {
+    if (response.status === "connected") {
+      localStorage.setItem(
+        "fb_access_token",
+        response.authResponse.accessToken
+      );
+      console.log("Access Token Saved Automatically");
+    }
+  });
+};
+
 function loginFacebook() {
+  FB.login(function(response) {
+    if (response.authResponse) {
 
-  // ⭐ Yahan apna Meta App ID likho
-  const APP_ID = "2328948191213332";
+      localStorage.setItem(
+        "fb_access_token",
+        response.authResponse.accessToken
+      );
 
-  const REDIRECT_URI =
-    "https://sanalone314-cyber.github.io/fb-scraper-privacy/auth/facebook/callback.html";
+      alert("Facebook Login Successful!");
+      window.location.reload();
 
-  const loginURL =
-    "https://www.facebook.com/v23.0/dialog/oauth" +
-    "?client_id=" + APP_ID +
-    "&redirect_uri=" + encodeURIComponent(REDIRECT_URI) +
-    "&response_type=code" +
-    "&scope=public_profile,email";
-
-  window.location.href = loginURL;
+    } else {
+      alert("Facebook Login Cancelled");
+    }
+  }, {
+    scope: "public_profile,email"
+  });
 }
 </script>
 
