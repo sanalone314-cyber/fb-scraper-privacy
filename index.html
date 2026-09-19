@@ -113,9 +113,30 @@
   </p>
 
   <!-- Login Button -->
-  <a class="btn" href="auth/facebook/callback.html">
-    Login with Facebook
-  </a>
+ <!-- Facebook Login Button -->
+<a class="btn" href="#" onclick="loginFacebook(); return false;">
+  Login with Facebook
+</a>
+
+<script>
+function loginFacebook() {
+
+  // ⭐ Yahan apna Meta App ID likho
+  const APP_ID = "2328948191213332";
+
+  const REDIRECT_URI =
+    "https://sanalone314-cyber.github.io/fb-scraper-privacy/auth/facebook/callback.html";
+
+  const loginURL =
+    "https://www.facebook.com/v23.0/dialog/oauth" +
+    "?client_id=" + APP_ID +
+    "&redirect_uri=" + encodeURIComponent(REDIRECT_URI) +
+    "&response_type=code" +
+    "&scope=public_profile,email";
+
+  window.location.href = loginURL;
+}
+</script>
 
   <div class="features">
     <h2>Features</h2>
