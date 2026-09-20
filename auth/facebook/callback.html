@@ -34,25 +34,26 @@
 </div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const code = params.get("code");
+const hash = window.location.hash.substring(1);
+const params = new URLSearchParams(hash);
+
+const accessToken = params.get("access_token");
 const error = params.get("error");
-const status = document.getElementById("status");
 
-if(error){
-    status.innerHTML = "❌ Facebook Login Failed:<br>" + error;
-}
-else if(code){
-    status.innerHTML = "✅ Login Successful!<br><br>Authorization Code Received.<br><br><small>Saving...</small>";
+if (error) {
+    alert("Facebook Login Failed: " + error);
+} else if (accessToken) {
 
-    localStorage.setItem("fb_auth_code", code);
+    // Token Save
+    localStorage.setItem("fb_access_token", accessToken);
 
-    setTimeout(()=>{
-        window.location.href = "https://sanalone314-cyber.github.io/fb-scraper-privacy/";
-    },2000);
-}
-else{
-    status.innerHTML = "❌ No authorization code received.";
+    alert("Facebook Login Successful!");
+
+    // Main Page पर वापस जाओ
+    window.location.href =
+      "https://sanalone314-cyber.github.io/fb-scraper-privacy/";
+} else {
+    alert("Access Token Not Found");
 }
 </script>
 
