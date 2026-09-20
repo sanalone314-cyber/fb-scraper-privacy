@@ -100,7 +100,7 @@
 
 <body>
 
-<div id="loginBox" class="container">
+<div class="container">
 
   <!-- Logo -->
   <img src="icon.png" alt="FB SCRAPER Logo">
@@ -113,10 +113,12 @@
   </p>
 
   <!-- Login Button -->
- <!-- Facebook Login Button -->
-<a class="btn" href="#" onclick="loginFacebook(); return false;">
-  Login with Facebook
-</a>
+  <div id="loginBox">
+    <a class="btn" href="#" onclick="loginFacebook(); return false;">
+        Login with Facebook
+    </a>
+</div>
+  
 <!-- Facebook JavaScript SDK -->
 <script async defer crossorigin="anonymous"
 src="https://connect.facebook.net/en_US/sdk.js"></script>
