@@ -176,17 +176,26 @@ function loginFacebook() {
   </div>
 
   <footer>
-    <a href="privacy-policy.html">Privacy Policy</a>
-    |
-    <a href="terms.html">Terms & Conditions</a>
-    |
+    <a href="privacy-policy.html">Privacy Policy</a> |
+    <a href="terms.html">Terms & Conditions</a> |
     <a href="data-deletion.html">Data Deletion</a>
 
     <br><br>
 
     © 2026 FB SCRAPER v1.0 — Developed by SanaLone314 Cyber.
-  </footer>
+</footer>
+  <div id="dashboard" style="display:none;text-align:center;padding:25px;">
+    <img id="userPic"
+         style="width:120px;height:120px;border-radius:50%;border:4px solid #1877F2;">
 
+    <h2 id="userName"></h2>
+    <p id="userEmail"></p>
+
+    <button onclick="localStorage.removeItem('fb_access_token'); location.reload();"
+        style="padding:10px 20px;background:#d32f2f;color:white;border:none;border-radius:8px;">
+        Logout
+    </button>
+</div>
 </div>
   </div>
 
@@ -199,10 +208,45 @@ if (savedToken) {
   console.log("Access Token Loaded");
 }
 
+async function fetchUserProfile() {
+    const token = localStorage.getItem("fb_access_token");
+    if (!token) return;
+
+    try {
+        const res = await fetch(
+            `https://graph.facebook.com/me?fields=id,name,email,picture.width(200).height(200)&access_token=${token}`
+        );
+
+        const user = await res.json();
+
+        if (user.error) {
+            console.log(user.error);
+            localStorage.removeItem("fb_access_token");
+            return;
+        }
+
+        const loginBox = document.getElementById("loginBox");if (loginBox) loginBox.style.display = "none";
+      
+        document.getElementById("dashboard").style.display = "block";
+      
+        document.getElementById("userName").innerText = user.name;
+        document.getElementById("userEmail").innerText = user.email || "No Email";
+        document.getElementById("userPic").src = user.picture.data.url;
+
+        console.log("Profile Loaded", user);
+    } catch (err) {
+        console.error(err);
+    }
+}
+  
 function saveAccessToken(token) {
-  localStorage.setItem("fb_access_token", token);
-  alert("Facebook Access Token Saved Successfully!");
-  window.location.reload();
+    localStorage.setItem("fb_access_token", token);
+    console.log("Access Token Saved Automatically");
+    fetchUserProfile();
+}
+
+  if (savedToken) {
+    fetchUserProfile();
 }
 </script>
 
