@@ -1,4 +1,4 @@
-const GRAPH_VERSION = "v24.0";
+const GRAPH_VERSION = "v26.0";
 const GRAPH_URL = `https://graph.facebook.com/${GRAPH_VERSION}`;
 
 function getToken() {
