@@ -1,0 +1,17 @@
+{
+  "name": "fb-scraper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FB SCRAPER v1.0 — Personal Facebook Analytics Dashboard",
+  "scripts": {
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue.bold,cyan.bold\" \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install",
+    "start": "npm --prefix backend start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
