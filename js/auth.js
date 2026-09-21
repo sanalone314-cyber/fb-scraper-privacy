@@ -24,21 +24,13 @@ window.fbAsyncInit = function () {
 })(document, "script", "facebook-jssdk");
 
 function loginWithFacebook() {
-  FB.login(
-   function (response) {
-  if (response.authResponse) {
-    saveFacebookToken(response.authResponse);
+  FB.login(function (response) {
+    if (response.authResponse) {
+      saveFacebookToken(response.authResponse);
 
-    // 👇 YAHAN FB.api hoga
-    FB.api(
-      "/me",
-      { fields: "id,name,email,picture" },
-      function (response) {
-        if (response.error) {
-          console.error(response.error);
-          return;
-        }
-
+      FB.api("/me", {
+        fields: "id,name,email,picture"
+      }, function (response) {
         console.log("Profile:", response);
 
         if (document.getElementById("userName"))
@@ -51,22 +43,16 @@ function loginWithFacebook() {
         if (document.getElementById("userPhoto"))
           document.getElementById("userPhoto").src =
             response.picture.data.url;
-      }
-    );
+      });
 
-  } else {
-    alert("Facebook Login Cancelled");
-  }
-}
-      }
-    },
-    {
-      scope:
-        "public_profile,email,user_posts,pages_show_list,pages_read_engagement",
+    } else {
+      alert("Facebook Login Cancelled");
     }
-  );
+  }, {
+    scope: "public_profile,email,user_posts"
+  });
 }
-
+  
 function saveFacebookToken(auth) {
   const token = auth.accessToken;
   const userId = auth.userID;
