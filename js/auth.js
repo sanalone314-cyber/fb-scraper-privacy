@@ -1,9 +1,9 @@
 window.fbAsyncInit = function () {
   FB.init({
-    appId: "122123156979394790", //
+    appId: "2328948191213332",
     cookie: true,
     xfbml: true,
-    version: "v24.0"
+    version: "v24.0",
   });
 
   FB.getLoginStatus(function (response) {
@@ -13,20 +13,16 @@ window.fbAsyncInit = function () {
   });
 };
 
-// Facebook SDK Load
 (function (d, s, id) {
   let js,
     fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
-
   js = d.createElement(s);
   js.id = id;
   js.src = "https://connect.facebook.net/en_US/sdk.js";
-
   fjs.parentNode.insertBefore(js, fjs);
 })(document, "script", "facebook-jssdk");
 
-// Login Button
 function loginWithFacebook() {
   FB.login(
     function (response) {
@@ -38,30 +34,31 @@ function loginWithFacebook() {
     },
     {
       scope:
-        "public_profile,email,pages_show_list,pages_read_engagement,user_posts"
+        "public_profile,email,user_posts,pages_show_list,pages_read_engagement",
     }
   );
 }
 
-// Save Token
 function saveFacebookToken(auth) {
-  localStorage.setItem("fb_access_token", auth.accessToken);
-  localStorage.setItem("fb_user_id", auth.userID);
+  const token = auth.accessToken;
+  const userId = auth.userID;
 
-  const tokenBox = document.getElementById("accessToken");
-  if (tokenBox) tokenBox.value = auth.accessToken;
+  localStorage.setItem("fb_access_token", token);
+  localStorage.setItem("fb_user_id", userId);
+
+  const tokenInput = document.getElementById("accessToken");
+  if (tokenInput) tokenInput.value = token;
 
   const status = document.getElementById("loginStatus");
-  if (status) status.innerHTML = "✅ Facebook Connected";
+  if (status) status.innerHTML = "✅ Connected";
 
-  console.log("Facebook Token Saved");
+  console.log("Token Saved:", token);
+  console.log("User ID:", userId);
 }
 
-// Logout
 function logoutFacebook() {
   FB.logout(function () {
-    localStorage.removeItem("fb_access_token");
-    localStorage.removeItem("fb_user_id");
+    localStorage.clear();
     location.reload();
   });
-[]\
+}
