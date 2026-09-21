@@ -1,307 +1,287 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FB SCRAPER v1.0</title>
-
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
-    }
-
-    body{
-      background:linear-gradient(135deg,#1877F2,#0B3D91);
-      color:#fff;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-height:100vh;
-      padding:20px;
-    }
-
-    .container{
-      width:100%;
-      max-width:700px;
-      background:#ffffff15;
-      backdrop-filter:blur(10px);
-      border-radius:20px;
-      padding:40px;
-      text-align:center;
-      box-shadow:0 10px 30px rgba(0,0,0,.3);
-    }
-
-    img{
-      width:120px;
-      margin-bottom:20px;
-      border-radius:20px;
-    }
-
-    h1{
-      font-size:38px;
-      margin-bottom:10px;
-    }
-
-    p{
-      color:#eee;
-      line-height:1.7;
-      margin-bottom:25px;
-    }
-
-    .btn{
-      display:inline-block;
-      background:#fff;
-      color:#1877F2;
-      padding:15px 35px;
-      border-radius:50px;
-      text-decoration:none;
-      font-size:18px;
-      font-weight:bold;
-      transition:.3s;
-    }
-
-    .btn:hover{
-      background:#dfe9ff;
-      transform:translateY(-2px);
-    }
-
-    .features{
-      margin:30px 0;
-      text-align:left;
-    }
-
-    .features li{
-      list-style:none;
-      padding:8px 0;
-      font-size:16px;
-    }
-
-    footer{
-      margin-top:30px;
-      border-top:1px solid rgba(255,255,255,.3);
-      padding-top:20px;
-      font-size:14px;
-    }
-
-    footer a{
-      color:#fff;
-      text-decoration:none;
-      margin:0 12px;
-    }
-
-    footer a:hover{
-      text-decoration:underline;
-    }
-  
-    .fb-btn{background:#1877F2;color:#fff;border:none;padding:15px 30px;border-radius:50px;font-size:18px;font-weight:bold;cursor:pointer;}
-    .fb-btn:hover{background:#0B5ED7;}
-    #accessToken{width:100%;padding:12px;border-radius:10px;border:none;margin-top:10px;}
-    #loginStatus{margin-top:10px;font-weight:bold;color:#FFD54F;}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FB SCRAPER v2.0 Premium</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:linear-gradient(135deg,#1877F2,#0B3D91);color:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+.container{width:100%;max-width:760px;background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border-radius:24px;padding:30px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.logo{width:100px;display:block;margin:0 auto 15px}
+h1{text-align:center;font-size:36px}
+p{text-align:center;color:#eaf2ff;margin:10px 0 20px}
+.fb-btn{width:100%;padding:15px;border:none;border-radius:12px;background:#1877F2;color:#fff;font-size:18px;font-weight:bold;cursor:pointer}
+.fb-btn:hover{background:#0B5ED7}
+.card{background:#fff;color:#111827;border-radius:18px;padding:18px;margin-top:20px}
+.status{padding:10px;border-radius:10px;font-weight:bold;text-align:center;margin-bottom:10px}
+.disconnected{background:#FEE2E2;color:#B91C1C}
+.connected{background:#DCFCE7;color:#15803D}
+textarea{width:100%;height:120px;padding:12px;border:2px solid #2563EB;border-radius:10px;resize:vertical}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.actions button{flex:1;padding:10px;border:none;border-radius:10px;color:white;font-weight:bold;cursor:pointer}
+.save{background:#16A34A}.copy{background:#2563EB}.clear{background:#DC2626}
+#dashboard{display:none;margin-top:20px}
+.profile{text-align:center}
+.profile img{width:120px;height:120px;border-radius:50%;border:4px solid #1877F2}
+.list{background:rgba(255,255,255,.08);padding:12px;border-radius:12px;margin-top:15px}
+.list li{margin:8px 0}
+footer{text-align:center;margin-top:25px;color:#dbeafe}
+footer a{color:white;text-decoration:none;margin:0 8px}
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-  <!-- Logo -->
-  <img src="assets/logo.png" alt="FB SCRAPER Logo" class="logo">
+<img src="assets/logo.png" class="logo" alt="FB SCRAPER Logo">
 
-  <h1>FB SCRAPER v1.0</h1>
+<h1>FB SCRAPER v2.0</h1>
+<p>Facebook Analytics Dashboard • Meta Graph API • GitHub Pages Ready</p>
 
-  <p>
-    Personal Facebook Analytics Dashboard using Meta Graph API.
-    Secure Login • Insights • Analytics • Privacy First.
-  </p>
+<button class="fb-btn" onclick="loginWithFacebook()">🔵 Login with Facebook</button>
 
-  <!-- Login Button -->
-  <div id="loginBox">
-  <button onclick="loginWithFacebook()" class="fb-btn">Login with Facebook</button><br><br>
-  <input id="accessToken" type="text" placeholder="Facebook Access Token" readonly />
-  <p id="loginStatus">Not Connected</p>
+<div class="card">
+<h3>🟢 Facebook Access Token Manager</h3>
+
+<div id="connectionStatus" class="status disconnected">🔴 Not Connected</div>
+
+<label><b>Facebook Access Token</b></label>
+
+<textarea id="fbToken" placeholder="Paste EAAGxxxxxxxxxxxxxxxx Access Token here"></textarea>
+
+<div class="actions">
+<button class="save" onclick="saveToken()">💾 Save Token</button>
+<button class="copy" onclick="copyToken()">📋 Copy</button>
+<button class="clear" onclick="clearToken()">🗑 Clear</button>
 </div>
-  
-<!-- Facebook JavaScript SDK -->
-<script async defer crossorigin="anonymous"
-src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<p id="tokenMessage"></p>
+</div>
+
+<div id="dashboard">
+
+<div class="card profile">
+<img id="userPic" src="assets/user.png">
+<h2 id="userName">Facebook User</h2>
+<p id="userEmail">Email will appear here</p>
+
+<button onclick="logoutFacebook()" class="clear" style="padding:12px 25px;margin-top:10px;border:none;border-radius:10px;color:#fff">Logout</button>
+</div>
+
+<div class="card">
+<h3>📊 Dashboard</h3>
+
+<ul id="postList" class="list"></ul>
+</div>
+
+</div>
+
+<footer>
+<a href="privacy-policy.html">Privacy Policy</a> |
+<a href="terms.html">Terms</a> |
+<a href="data-deletion.html">Data Deletion</a>
+
+<br><br>
+
+© 2026 FB SCRAPER v2.0 Premium
+</footer>
+
+</div>
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 
 <script>
-window.fbAsyncInit = function () {
-  FB.init({
-    appId: "2328948191213332",
-    cookie: true,
-    xfbml: true,
-    version: "v23.0"
-  });
 
-  // Agar pehle se login hai to token load karo
-  FB.getLoginStatus(function(response) {
-    if (response.status === "connected") {
-      localStorage.setItem(
-        "fb_access_token",
-        token
-      );
-      console.log("Access Token Saved Automatically");
-    }
-  });
+window.fbAsyncInit=function(){
+
+FB.init({
+appId:"2328948191213332",
+cookie:true,
+xfbml:true,
+version:"v23.0"
+});
+
+FB.getLoginStatus(function(response){
+
+if(response.status==="connected"){
+saveAccessToken(response.authResponse.accessToken);
+}
+
+});
+
 };
 
-function loginWithFacebook() {
-  FB.login(function(response) {
-    if (response.authResponse) {
-      const token = token;
+function loginWithFacebook(){
 
-      localStorage.setItem(
-        "fb_access_token",
-        token
-      );
+FB.login(function(response){
 
-      document.getElementById("accessToken").value = token;
-      document.getElementById("loginStatus").innerText = "✅ Connected to Facebook";
-      fetchUserProfile();
+if(response.authResponse){
 
-    } else {
-      alert("Facebook Login Cancelled");
-    }
-  }, {
-    scope: "public_profile,email"
-  });
+saveAccessToken(response.authResponse.accessToken);
+
+}else{
+alert("Facebook Login Cancelled");
 }
 
-window.addEventListener("load",()=>{
- const token=localStorage.getItem("fb_access_token");
- if(token){
-  const box=document.getElementById("accessToken"); if(box) box.value=token;
-  const st=document.getElementById("loginStatus"); if(st) st.innerText="✅ Connected to Facebook";
- }
+},{scope:"public_profile,email"});
+
+}
+
+function saveAccessToken(token){
+
+localStorage.setItem("fb_access_token",token);
+
+document.getElementById("fbToken").value=token;
+
+setConnected(true);
+
+fetchUserProfile();
+
+}
+
+function saveToken(){
+
+const token=document.getElementById("fbToken").value.trim();
+
+if(!token){
+alert("Access Token Paste Karo");
+return;
+}
+
+saveAccessToken(token);
+
+document.getElementById("tokenMessage").innerText="✅ Token Saved Successfully";
+
+}
+
+function copyToken(){
+
+const box=document.getElementById("fbToken");
+
+box.select();
+
+document.execCommand("copy");
+
+document.getElementById("tokenMessage").innerText="📋 Token Copied";
+
+}
+
+function clearToken(){
+
+localStorage.removeItem("fb_access_token");
+
+document.getElementById("fbToken").value="";
+
+setConnected(false);
+
+document.getElementById("dashboard").style.display="none";
+
+document.getElementById("tokenMessage").innerText="🗑 Token Removed";
+
+}
+
+function logoutFacebook(){
+
+localStorage.removeItem("fb_access_token");
+
+location.reload();
+
+}
+
+function setConnected(state){
+
+const status=document.getElementById("connectionStatus");
+
+if(state){
+status.className="status connected";
+status.innerHTML="🟢 Connected to Facebook";
+}else{
+status.className="status disconnected";
+status.innerHTML="🔴 Not Connected";
+}
+
+}
+
+async function fetchUserProfile(){
+
+const token=localStorage.getItem("fb_access_token");
+
+if(!token) return;
+
+try{
+
+const res=await fetch(`https://graph.facebook.com/me?fields=id,name,email,picture.width(200).height(200)&access_token=${token}`);
+
+const user=await res.json();
+
+if(user.error){
+setConnected(false);
+return;
+}
+
+document.getElementById("dashboard").style.display="block";
+
+document.getElementById("userName").innerText=user.name;
+document.getElementById("userEmail").innerText=user.email || "No Email";
+document.getElementById("userPic").src=user.picture.data.url;
+
+loadPosts();
+
+}catch(e){
+console.log(e);
+}
+
+}
+
+async function loadPosts(){
+
+const token=localStorage.getItem("fb_access_token");
+
+try{
+
+const res=await fetch(`https://graph.facebook.com/me/posts?fields=message,created_time&limit=5&access_token=${token}`);
+
+const posts=await res.json();
+
+const list=document.getElementById("postList");
+
+list.innerHTML="";
+
+(posts.data || []).forEach(post=>{
+
+const li=document.createElement("li");
+
+li.innerHTML=`<b>${post.created_time.substring(0,10)}</b><br>${post.message || "No Text Post"}`;
+
+list.appendChild(li);
+
 });
+
+}catch(err){
+console.log(err);
+}
+
+}
+
+window.onload=function(){
+
+const token=localStorage.getItem("fb_access_token");
+
+if(token){
+
+document.getElementById("fbToken").value=token;
+
+setConnected(true);
+
+fetchUserProfile();
+
+}
+
+};
+
 </script>
 
-  <div class="features">
-    <h2>Features</h2>
-    <ul>
-      <li>✅ Facebook Login (Meta OAuth)</li>
-      <li>✅ Personal Analytics Dashboard</li>
-      <li>✅ Friends & Profile Insights</li>
-      <li>✅ Posts Analytics</li>
-      <li>✅ Secure Graph API Access</li>
-      <li>✅ GitHub Pages Hosted Website</li>
-    </ul>
-  </div>
-
-  <footer>
-    <a href="privacy-policy.html">Privacy Policy</a> |
-    <a href="terms.html">Terms & Conditions</a> |
-    <a href="data-deletion.html">Data Deletion</a>
-
-    <br><br>
-
-    © 2026 FB SCRAPER v1.0 — Developed by SanaLone314 Cyber.
-</footer>
-  <div id="dashboard" style="display:none;text-align:center;padding:25px;">
-    <img id="userPic"
-         style="width:120px;height:120px;border-radius:50%;border:4px solid #1877F2;">
-
-    <h2 id="userName"></h2>
-    <p id="userEmail"></p>
-
-    <button onclick="localStorage.removeItem('fb_access_token'); location.reload();"
-        style="padding:10px 20px;background:#d32f2f;color:white;border:none;border-radius:8px;">
-        Logout
-    </button>
-</div>
-</div>
-  </div>
-
-<script>
-// FB Scraper Token Loader
-const savedCode = localStorage.getItem("fb_auth_code");
-const savedToken = localStorage.getItem("fb_access_token");
-
-if (savedToken) {
-  console.log("Access Token Loaded");
-}
-
-async function fetchUserProfile() {
-    const token = localStorage.getItem("fb_access_token");
-    if (!token) return;
-
-    try {
-        const res = await fetch(
-            `https://graph.facebook.com/me?fields=id,name,email,picture.width(200).height(200)&access_token=${token}`
-        );
-
-        const user = await res.json();
-
-        if (user.error) {
-            console.log(user.error);
-            localStorage.removeItem("fb_access_token");
-            return;
-        }
-
-        const loginBox = document.getElementById("loginBox");if (loginBox) loginBox.style.display = "none";
-      
-        document.getElementById("dashboard").style.display = "block";
-      
-        document.getElementById("userName").innerText = user.name;
-        document.getElementById("userEmail").innerText = user.email || "No Email";
-        document.getElementById("userPic").src = user.picture.data.url;
-
-        console.log("Profile Loaded", user);
-        loadDashboard(user);
-      
-    } catch (err) {
-        console.error(err);
-    }
-}
-  
-function saveAccessToken(token) {
-    localStorage.setItem("fb_access_token", token);
-    console.log("Access Token Saved Automatically");
-    fetchUserProfile();
-}
-
-  if (savedToken) {
-    fetchUserProfile();
-}
-  
-  async function loadDashboard(user) {
-    const token = localStorage.getItem("fb_access_token");
-    if (!token) return;
-
-    try {
-        const res = await fetch(
-            `https://graph.facebook.com/me/posts?fields=id,message,created_time&limit=5&access_token=${token}`
-        );
-
-        const posts = await res.json();
-
-        const dashboard = document.getElementById("dashboard");
-
-        dashboard.innerHTML += `
-            <hr style="margin:20px 0;border-color:#4F8EF7;">
-
-            <h2 style="color:white;">📊 Dashboard</h2>
-
-            <p style="color:#cbd5e1;">
-                Recent Facebook Posts (${posts.data ? posts.data.length : 0})
-            </p>
-
-            <ul style="text-align:left;color:white;max-width:500px;margin:auto;">
-                ${(posts.data || []).map(post => `
-                    <li style="margin-bottom:10px;">
-                        ${post.message || "No Text Post"}
-                    </li>
-                `).join("")}
-            </ul>
-        `;
-    } catch (err) {
-        console.error("Dashboard Error:", err);
-    }
-    }
-</script>
 </body>
 </html>
