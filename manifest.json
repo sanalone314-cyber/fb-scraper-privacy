@@ -1,8 +1,0 @@
-{
-  "name": "FB-SCRAPER Privacy Dashboard",
-  "short_name": "FB-SCRAPER",
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#2563eb",
-  "background_color": "#ffffff"
-}
