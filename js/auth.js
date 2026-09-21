@@ -43,12 +43,15 @@ function saveFacebookToken(auth) {
   const token = auth.accessToken;
   const userId = auth.userID;
 
+  // Save Token & User ID
   localStorage.setItem("fb_access_token", token);
   localStorage.setItem("fb_user_id", userId);
 
+  // Show token in input box
   const tokenInput = document.getElementById("accessToken");
   if (tokenInput) tokenInput.value = token;
 
+  // Show connected status
   const status = document.getElementById("loginStatus");
   if (status) status.innerHTML = "✅ Connected";
 
