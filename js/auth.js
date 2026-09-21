@@ -25,11 +25,39 @@ window.fbAsyncInit = function () {
 
 function loginWithFacebook() {
   FB.login(
-    function (response) {
-      if (response.authResponse) {
-        saveFacebookToken(response.authResponse);
-      } else {
-        alert("Facebook Login Cancelled");
+   function (response) {
+  if (response.authResponse) {
+    saveFacebookToken(response.authResponse);
+
+    // 👇 YAHAN FB.api hoga
+    FB.api(
+      "/me",
+      { fields: "id,name,email,picture" },
+      function (response) {
+        if (response.error) {
+          console.error(response.error);
+          return;
+        }
+
+        console.log("Profile:", response);
+
+        if (document.getElementById("userName"))
+          document.getElementById("userName").innerText = response.name;
+
+        if (document.getElementById("userEmail"))
+          document.getElementById("userEmail").innerText =
+            response.email || "No Email";
+
+        if (document.getElementById("userPhoto"))
+          document.getElementById("userPhoto").src =
+            response.picture.data.url;
+      }
+    );
+
+  } else {
+    alert("Facebook Login Cancelled");
+  }
+}
       }
     },
     {
