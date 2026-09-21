@@ -95,7 +95,12 @@
     footer a:hover{
       text-decoration:underline;
     }
-  </style>
+  
+    .fb-btn{background:#1877F2;color:#fff;border:none;padding:15px 30px;border-radius:50px;font-size:18px;font-weight:bold;cursor:pointer;}
+    .fb-btn:hover{background:#0B5ED7;}
+    #accessToken{width:100%;padding:12px;border-radius:10px;border:none;margin-top:10px;}
+    #loginStatus{margin-top:10px;font-weight:bold;color:#FFD54F;}
+</style>
 </head>
 
 <body>
@@ -114,9 +119,9 @@
 
   <!-- Login Button -->
   <div id="loginBox">
-    <a class="btn" href="#" onclick="loginFacebook(); return false;">
-        Login with Facebook
-    </a>
+  <button onclick="loginWithFacebook()" class="fb-btn">Login with Facebook</button><br><br>
+  <input id="accessToken" type="text" placeholder="Facebook Access Token" readonly />
+  <p id="loginStatus">Not Connected</p>
 </div>
   
 <!-- Facebook JavaScript SDK -->
@@ -137,24 +142,26 @@ window.fbAsyncInit = function () {
     if (response.status === "connected") {
       localStorage.setItem(
         "fb_access_token",
-        response.authResponse.accessToken
+        token
       );
       console.log("Access Token Saved Automatically");
     }
   });
 };
 
-function loginFacebook() {
+function loginWithFacebook() {
   FB.login(function(response) {
     if (response.authResponse) {
+      const token = token;
 
       localStorage.setItem(
         "fb_access_token",
-        response.authResponse.accessToken
+        token
       );
 
-      alert("Facebook Login Successful!");
-      window.location.reload();
+      document.getElementById("accessToken").value = token;
+      document.getElementById("loginStatus").innerText = "✅ Connected to Facebook";
+      fetchUserProfile();
 
     } else {
       alert("Facebook Login Cancelled");
@@ -163,6 +170,14 @@ function loginFacebook() {
     scope: "public_profile,email"
   });
 }
+
+window.addEventListener("load",()=>{
+ const token=localStorage.getItem("fb_access_token");
+ if(token){
+  const box=document.getElementById("accessToken"); if(box) box.value=token;
+  const st=document.getElementById("loginStatus"); if(st) st.innerText="✅ Connected to Facebook";
+ }
+});
 </script>
 
   <div class="features">
